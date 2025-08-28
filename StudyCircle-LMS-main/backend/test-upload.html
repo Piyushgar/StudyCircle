@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Upload & API Endpoints</title>
+</head>
+<body>
+    <h1>Test Upload & API Endpoints</h1>
+    
+    <h2>1. Test File Upload (Debug Route)</h2>
+    <form id="debugForm">
+        <input type="file" name="testFile" accept="image/*">
+        <button type="submit">Test Debug Upload</button>
+    </form>
+    <div id="debugResult"></div>
+    
+    <hr>
+    
+    <h2>2. Test Course Creation</h2>
+    <form id="courseForm">
+        <input type="text" name="courseName" placeholder="Course Name" value="Test Course">
+        <input type="text" name="courseDescription" placeholder="Description" value="Test Description">
+        <input type="number" name="price" placeholder="Price" value="999">
+        <input type="text" name="tag" placeholder="Tags" value='["tag1", "tag2"]'>
+        <input type="text" name="whatYouWillLearn" placeholder="Benefits" value="Learn something">
+        <input type="text" name="category" placeholder="Category ID" value="64f8b8b8b8b8b8b8b8b8b8b8">
+        <input type="text" name="instructions" placeholder="Requirements" value='["req1", "req2"]'>
+        <input type="file" name="thumbnailImage" accept="image/*">
+        <button type="submit">Test Course Creation</button>
+    </form>
+    <div id="courseResult"></div>
+    
+    <hr>
+    
+    <h2>3. Test Lecture Creation (Reading Material)</h2>
+    <form id="lectureForm">
+        <input type="text" name="sectionId" placeholder="Section ID" value="64f8b8b8b8b8b8b8b8b8b8b8">
+        <input type="text" name="title" placeholder="Lecture Title" value="Test Reading Lecture">
+        <input type="text" name="description" placeholder="Description" value="Test Description">
+        <input type="text" name="lectureType" value="reading" readonly>
+        <textarea name="content" placeholder="Content">This is test content for reading material.</textarea>
+        <input type="text" name="externalLink" placeholder="External Link (optional)" value="https://example.com">
+        <button type="submit">Test Lecture Creation</button>
+    </form>
+    <div id="lectureResult"></div>
+    
+    <hr>
+    
+    <h2>4. Test Course Editing</h2>
+    <form id="editForm">
+        <input type="text" name="courseId" placeholder="Course ID" value="64f8b8b8b8b8b8b8b8b8b8b8">
+        <input type="text" name="courseName" placeholder="New Course Name" value="Updated Course Name">
+        <input type="text" name="courseDescription" placeholder="New Description" value="Updated Description">
+        <button type="submit">Test Course Editing</button>
+    </form>
+    <div id="editResult"></div>
+
+    <script>
+        // Test Debug Upload
+        document.getElementById('debugForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            try {
+                const response = await fetch('http://localhost:4000/debug/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+                const result = await response.json();
+                document.getElementById('debugResult').innerHTML = `<pre>${JSON.stringify(result, null, 2)}</pre>`;
+            } catch (error) {
+                document.getElementById('debugResult').innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
+            }
+        });
+
+        // Test Course Creation
+        document.getElementById('courseForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            try {
+                const response = await fetch('http://localhost:4000/api/v1/course/createCourse', {
+                    method: 'POST',
+                    body: formData
+                });
+                const result = await response.json();
+                document.getElementById('courseResult').innerHTML = `<pre>${JSON.stringify(result, null, 2)}</pre>`;
+            } catch (error) {
+                document.getElementById('courseResult').innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
+            }
+        });
+
+        // Test Lecture Creation
+        document.getElementById('lectureForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            try {
+                const response = await fetch('http://localhost:4000/test/subsection', {
+                    method: 'POST',
+                    body: formData
+                });
+                const result = await response.json();
+                document.getElementById('lectureResult').innerHTML = `<pre>${JSON.stringify(result, null, 2)}</pre>`;
+            } catch (error) {
+                document.getElementById('lectureResult').innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
+            }
+        });
+
+        // Test Course Editing
+        document.getElementById('editForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            try {
+                const response = await fetch('http://localhost:4000/debug/subsection', {
+                    method: 'POST',
+                    body: formData
+                });
+                const result = await response.json();
+                document.getElementById('editResult').innerHTML = `<pre>${JSON.stringify(result, null, 2)}</pre>`;
+            } catch (error) {
+                document.getElementById('editResult').innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
+            }
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,11 @@
+frontend/
+screenshots/
+node_modules/
+*.md
+.git/
+.gitignore
+backend/node_modules/
+*.log
+.env.local
+.env.development
+.env.test
